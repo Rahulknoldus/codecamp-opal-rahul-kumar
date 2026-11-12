@@ -1,8 +1,8 @@
 # Autonomous Lead & Competitor Intelligence Agent
 
-> **Submission status:** This repository contains the complete workflow design and prompt specification, but not yet a verified native Opal export or live execution proof. Those must be captured from the signed-in Opal app and the connected Google Sheet; this README does not claim they have happened.
+> **Submission status:** The public repository contains the workflow design and prompt specification, but not yet a verified native Opal export or live execution proof. Those must be captured from the Opal app and connected Google Sheet; this README does not claim they have happened.
 
-The supplied Opal URL currently opens a published, empty app (`codeCampassignment`). Remixing it could not create a Drive copy because this session blocks Opal's Drive `files/generateIds` endpoint. The app URL is retained in the manifest for reference; no changes to the published source app were made. No public GitHub repository has been created from this incomplete package.
+The [public GitHub repository](https://github.com/Rahulknoldus/codecamp-opal-rahul-kumar) is live. The supplied Opal URL currently opens a published, empty app (`codeCampassignment`). Remixing it could not create a Drive copy because this session blocks Opal's Drive `files/generateIds` endpoint. The app URL is retained in the manifest for reference; no changes to the published source app were made.
 
 ## Objective
 
