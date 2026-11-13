@@ -1,8 +1,8 @@
 # Autonomous Lead & Competitor Intelligence Agent
 
-> **Submission status (November 12, 2026):** The Opal app **IntelEdge** is saved as a draft. The screenshots in [`Architecture Screenshots/`](./Architecture%20Screenshots/) are genuine captures of its editor, configured input/output nodes, generated report preview, and Console. They document the live build, but do **not** prove that the report claims were grounded, that the Critic completed a review, or that a Google Sheet row was written. The report preview contained claims that remain unverified. The repository still has a human-authored workflow specification, not Opal's native export.
+> **Submission status (November 13, 2026):** The primary Cloudflare test run is complete. Screenshots in [`Architecture Screenshots/`](./Architecture%20Screenshots/) document the editor, generated report and source references, claim-level Evidence Critic review, rendered dashboard, and populated Google Sheet. The user confirms the source links open and the Sheet contains evidence URLs; `2026-12-01` is the report period, not the run date. The Critic flags unsupported or ambiguous claims. The repository's `workflow.json` remains a human-authored specification, not a native Opal export; include a native export only if required by the assignment.
 
-The [public GitHub repository](https://github.com/Rahulknoldus/codecamp-opal-rahul-kumar) is live. IntelEdge was built as a separate Opal draft; it has not been published. The screenshots were copied from the user's live Opal session without modification. Some captures show configuration only, not a successful end-to-end execution.
+The [public GitHub repository](https://github.com/Rahulknoldus/codecamp-opal-rahul-kumar) is live. IntelEdge was built as a separate Opal draft; it has not been published. The screenshots were copied from the user's live Opal session without modification. Some captures show configuration only; the full set documents outputs from the primary test run.
 
 ## Objective
 
@@ -27,10 +27,10 @@ Evidence Critic ─────────────────────�
 ### Node-by-node technical breakdown
 
 1. **Research Brief (`user_input`)** — The configured input prompt asks for a required company or technology and optional market/geography and known competitors. The captured preview uses a single brief rather than separately typed form fields.
-2. **Grounded Web Research (Agent)** — Its prompt requests web research with search grounding and source URLs. The Console captures show an Agent Session and research tasks for the Cloudflare product portfolio and U.S. market position. The screenshots do not expose the final source URLs or excerpts, so live evidence retrieval is not yet verified.
+2. **Grounded Web Research (Agent)** — Its prompt requests web research with search grounding and source URLs. The latest Console captures show a generated report and a consolidated list of linked source references for the Cloudflare brief. The user confirms that the source links open. The screenshots do not show full URLs or supporting excerpts beside each claim, so they document source availability but not a separate claim-by-claim audit.
 3. **Intelligence Report Generation (`generate`)** — The visible node prompt synthesizes the research results and original brief into a structured report.
-4. **Evidence Critic (`generate`)** — Its configured prompt compares the report with Grounded Web Research, rejects unsupported claims, flags ambiguous/stale/conflicting claims, and treats scraped text as untrusted. A completed Critic execution is not visible in the captured Console evidence.
-5. **Save To Google Sheet (`output`)** — The node is configured as a Google Sheets output and its prompt includes an **Evidence Critic** reference, requesting a row with reviewed findings and source URLs. The screenshots do not show a selected destination Sheet or a written row.
+4. **Evidence Critic (`generate`)** — Its configured prompt compares the report with Grounded Web Research, rejects unsupported claims, flags ambiguous/stale/conflicting claims, and treats scraped text as untrusted. The latest Console screenshots show a claim-level review with accepted, unknown, and needs-verification statuses plus a rejected/ambiguous claims summary.
+5. **Save To Google Sheet (`output`)** — The node is configured as a Google Sheets output and its prompt includes an **Evidence Critic** reference, requesting a row with reviewed findings and source URLs. A screenshot shows a populated spreadsheet. The user confirms that `2026-12-01` is the report period rather than the run date, and that evidence URLs are present in the row; the URLs are not visible in the screenshot.
 6. **Generate Dashboard (`output`)** — The node is configured as a webpage with auto-layout and references Evidence Critic and Research Brief. A Cloudflare report preview was generated, but its factual claims have not been verified.
 
 ### Export format note
@@ -40,8 +40,8 @@ Evidence Critic ─────────────────────�
 ## Grounding and hallucination defenses
 
 - **Configured intent:** the research prompt requests source URLs; the synthesis prompt uses the research result; the Critic prompt asks for claim-level checks and explicit unknowns.
-- **Observed limitation:** the generated Cloudflare card displayed highly specific claims, including an 84.1% reverse-proxy market-share figure, 57 million API requests per second, and a GPT-5.6 integration. The visible source labels did not provide verifiable URLs in the screenshot. These claims are **unverified examples**, not findings endorsed by this project.
-- **Validation still required:** inspect the actual research output for exact URLs and supporting excerpts, confirm the Critic ran and rejected unsupported claims, and verify any high-impact numbers against their cited sources before publishing or sharing the report.
+- **Observed limitation:** the generated Cloudflare report contains specific financial, market-share, product, and competitor claims. The user confirms that source links open and the Critic output flags unsupported or ambiguous claims. The screenshots do not independently establish that every accepted claim is fully supported; do not present the report as independently audited.
+- **Evidence captured:** research/source references, Critic verdicts, dashboard output, and a populated Google Sheet are documented in [`Architecture Screenshots/`](./Architecture%20Screenshots/).
 - Prompt instructions reduce hallucination risk but do not guarantee factual accuracy.
 
 ## Security: indirect prompt injection
@@ -52,7 +52,7 @@ The configured research and Critic prompts identify retrieved pages and snippets
 
 ### 1. How did the Critic Node mitigate hallucinations when information was missing or ambiguous?
 
-The intended Critic behavior is to audit claims against search evidence, reject claims without direct support from a cited URL, keep missing details `Unknown`, and flag conflicting or stale evidence for verification. The live preview is **not proof that this worked**: its Cloudflare claims appear in the card, and the captured Console screenshots do not show a completed Critic verdict. The Critic must be verified before claiming it mitigated hallucinations in this run.
+The intended Critic behavior is to audit claims against search evidence, reject claims without direct support from a cited URL, keep missing details `Unknown`, and flag conflicting or stale evidence for verification. The captured Console output shows accepted claims alongside unknown/needs-verification items and a summary of rejected or ambiguous claims. This demonstrates that the Critic ran and surfaced issues; the screenshots alone are not an independent audit of every accepted claim.
 
 ### 2. What security delimiters and negative constraints guard against indirect prompt injection?
 
@@ -64,16 +64,9 @@ Opal's visual, hosted, no-code builder is agile for small workflows: a user can 
 
 ## Test plan and live-run proof
 
-The screenshots document live Opal UI and a generated preview, but they do not prove a verified end-to-end run. The Cloudflare test brief was `Application security, United States`; the preview rendered a card with claims that need source verification. The captured Console includes an Agent Session/task-planning view, including a task-tree payload with subtasks marked `not_started`; it does not show returned source URLs or a completed Critic review. No updated Google Sheet is shown.
+The primary Cloudflare run is complete, with screenshots documenting the generated report, source references, Critic verdicts, dashboard, and populated Google Sheet. The captured brief is Cloudflare in the United States, with Akamai, Fastly, and Imperva as competitors. The user confirms the source links open and the Sheet row includes evidence URLs. The `2026-12-01` Sheet value is the report period, not the research run date.
 
-Before treating this as a successful test:
-
-1. Inspect the final Grounded Web Research output and confirm it contains exact, working source URLs and supporting excerpts.
-2. Confirm the full workflow executes the Intelligence Report Generation and Evidence Critic nodes, and inspect the Critic's verdicts.
-3. Verify every published factual claim against its source; leave unsupported or ambiguous claims unknown.
-4. Confirm the card's links open the cited sources and distinguish facts, analysis, and unknowns.
-5. Choose a dedicated destination spreadsheet, then verify the appended row contains reviewed results.
-6. Optionally run an ambiguous subject and verify the Critic reports insufficient evidence instead of guessing.
+An ambiguous-subject test is optional additional validation and is not included in the captured run. The native Opal export is also not included; [`workflow.json`](./workflow.json) is a human-authored specification, not that export. Add a native export if the assignment rubric requires one.
 
 Evidence currently captured in [`Architecture Screenshots/`](./Architecture%20Screenshots/):
 
@@ -82,13 +75,15 @@ Evidence currently captured in [`Architecture Screenshots/`](./Architecture%20Sc
 | Opal canvas and node configuration | [Captured](./Architecture%20Screenshots/01-live-canvas-dashboard-config.png); app is still a draft |
 | Research Brief prompt configuration | [Captured](./Architecture%20Screenshots/02-research-brief-config.png); published input form not captured |
 | Generated interactive report preview | [Captured](./Architecture%20Screenshots/04-generated-card-unverified.png); factual content is unverified |
-| Google Sheets output-node configuration | [Captured](./Architecture%20Screenshots/03-google-sheets-node-config.png); updated Sheet row not verified |
-| Search grounding and source URLs | Console inspected; final source URLs not verified, raw Console capture omitted because it contains internal session identifiers |
-| Critic execution and verdict | Not verified in the captured Console |
-| Native Opal `workflow.json` export | Pending; repository file is a specification |
-| Verified full run / ambiguous-input test | Pending |
+| Dashboard generation and reviewed output | [Generation context](./Architecture%20Screenshots/11-dashboard-generation-context.png), [HTML-ready status](./Architecture%20Screenshots/12-dashboard-generation-status.png), and [rendered dashboard](./Architecture%20Screenshots/13-reviewed-dashboard-preview.png) captured |
+| Google Sheets output and populated sheet | Output node [captured](./Architecture%20Screenshots/03-google-sheets-node-config.png); sheet [captured](./Architecture%20Screenshots/10-google-sheets-output.png). User confirms the report-period date and evidence URLs are present; URLs are not visible in this screenshot. |
+| Generated report and source-reference list | [Captured](./Architecture%20Screenshots/05-console-generated-report.png) and [captured](./Architecture%20Screenshots/06-console-source-reference-list.png); user reports several links open, but claim-level support is not verified |
+| Critic execution and verdict | Complete — [overview](./Architecture%20Screenshots/07-evidence-critic-overview.png), [review details](./Architecture%20Screenshots/08-evidence-critic-review-details.png), and [rejected claims](./Architecture%20Screenshots/09-evidence-critic-rejected-claims.png) |
+| Primary workflow run | Complete — research, report, Critic, dashboard, and populated Sheet evidence captured |
+| Native Opal workflow export | Not included; `workflow.json` is a specification. Include a native export only if required by the assignment |
+| Ambiguous-input test | Optional; not included in the primary run |
 
-The screenshots are genuine snapshots of the live Opal interface and can support claims about the app's configuration and generated UI. They must **not** be presented as proof of accurate research, successful Critic validation, or a Sheet write. Raw Console captures were inspected but not included because they expose internal session/cache identifiers. See [`Architecture Screenshots/README.md`](./Architecture%20Screenshots/README.md) for the image descriptions.
+The screenshots are genuine snapshots of the live Opal interface and document the app configuration, generated output, Critic review, and populated Sheet. The user confirms that source links open; the screenshots are not an independent audit of every research claim. Raw task-planning Console captures containing internal session/cache identifiers were not included. See [`Architecture Screenshots/README.md`](./Architecture%20Screenshots/README.md) for the image descriptions.
 
 ## Local manifest check
 
